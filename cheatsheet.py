@@ -3,6 +3,7 @@ from qiskit import(QuantumCircuit, execute, Aer) # Aer handles the simulator
 import matplotlib.pyplot as plt
 from qiskit import IBMQ
 from qiskit.tools.monitor import job_monitor # shows where the job is in the queue
+from qiskit.tools.visualization import plot_bloch_multivector # for showing what the bloch sphere would look like
 from qiskit.visualization import plot_histogram
 
 # only need to run one time

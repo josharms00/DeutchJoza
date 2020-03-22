@@ -1,4 +1,4 @@
-from qiskit import(QuantumCircuit, execute, Aer) 
+from qiskit import(execute, Aer) 
 import matplotlib.pyplot as plt
 from qiskit import IBMQ
 from qiskit.tools.monitor import job_monitor 
@@ -41,7 +41,8 @@ class q_Helper(object):
 
 		for backend in self.provider.backends():
 			try:
-				if prev_back.status().pending_jobs > backend.status().pending_jobs and len(backend.properties().qubits) > qubits:
+				# check jobs and amount of qubits 
+				if prev_back.status().pending_jobs > backend.status().pending_jobs and len(backend.properties().qubits) >= qubits:
 					least_back = backend
 
 				prev_back = backend
