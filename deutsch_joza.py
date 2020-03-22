@@ -6,19 +6,50 @@ from qiskit.visualization import plot_histogram
 
 qh = q_Helper()
 
-circuit = QuantumCircuit(4, 2)
+circuit = QuantumCircuit(2, 2)
 
-circuit.x(2)
-#circuit.x(3)
+# balanced functions
 
+# will always return the same as the input 
 def identity(c):
-	c.cx(2, 0)
-	c.cx(3, 1)
+	c.cx(1, 0)
 
 	return c
 
-circuit = identity(circuit)
+# will retrun the negated version of the input
+def negate(c):
+	c.x(1)
 
+	return identity(c)
+
+# constant functions
+
+# will always make the bit 0
+def constant_0(c):
+	return c
+
+# will always make the bit 1
+def constant_1(c):
+	c.x(0)
+
+	return c
+
+# output bit
+circuit.x(0)
+
+# input bit
+circuit.x(1)
+
+# both bits need to start in a superposition
+circuit.h(0)
+circuit.h(1)
+
+circuit = negate(circuit)
+
+circuit.h(0)
+circuit.h(1)
+
+# if the function is constant then the meesurement will be |11> if balanced it will be |01>
 circuit.measure([0, 1], [0, 1])
 
 # circuit.draw(output='mpl')
