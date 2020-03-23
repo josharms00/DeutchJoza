@@ -3,10 +3,7 @@ import numpy
 import matplotlib.pyplot as plt
 from q_Helper import q_Helper
 from qiskit.visualization import plot_histogram
-
-qh = q_Helper()
-
-circuit = QuantumCircuit(2, 2)
+import argparse
 
 # balanced functions
 
@@ -34,28 +31,61 @@ def constant_1(c):
 
 	return c
 
-# output bit
-circuit.x(0)
+# will pick one based on user input
+def choose_oracle_func(i, c):
 
-# input bit
-circuit.x(1)
+	if i == 0: 
+		return identity(c)
+	elif i == 1: 
+		return negate(c)
+	elif i == 2:
+		return constant_0(c)
+	else:
+		return constant_1(c)
 
-# both bits need to start in a superposition
-circuit.h(0)
-circuit.h(1)
+def main():
+	qh = q_Helper()
 
-circuit = negate(circuit)
+	legend = " 0: identity function \n 1: negation function \n 2: constant 0 function \n 3: constant 1 function \n exit: exit program"
 
-circuit.h(0)
-circuit.h(1)
+	print(legend)
 
-# if the function is constant then the meesurement will be |11> if balanced it will be |01>
-circuit.measure([0, 1], [0, 1])
+	inp = input("Please choose what function to test. \n")
 
-# circuit.draw(output='mpl')
+	while(inp != "exit"):
 
-result, counts = qh.do_job(circuit, 100)
+		circuit = QuantumCircuit(2, 2)
 
-plot_histogram([counts])
+		# output bit
+		circuit.x(0)
 
-plt.show()
+		# input bit
+		circuit.x(1)
+
+		# both bits need to start in a superposition
+		circuit.h(0)
+		circuit.h(1)
+
+		# choose what function to test
+		circuit = choose_oracle_func(int(inp), circuit)
+
+		circuit.h(0)
+		circuit.h(1)
+
+		# if the function is constant then the meesurement will be |11> if balanced it will be |01>
+		circuit.measure([0, 1], [0, 1])
+
+		# circuit.draw(output='mpl')
+
+		result, counts = qh.do_job(circuit, 100)
+
+		plot_histogram([counts])
+
+		plt.show()
+
+		print(legend)
+
+		inp = input("Please choose what function to test next. \n")
+
+if __name__ == '__main__':
+    main()
