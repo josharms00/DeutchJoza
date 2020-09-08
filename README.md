@@ -1,2 +1,2 @@
-# QuantumAlgorithms
-A collection of my implementations of various popular quantum algorithms using IBM's qiskit
+# DeutchJoza
+Trying out IBM's qiskit language and quantum cloud computing platform to implement the deutch-joza algorithm
